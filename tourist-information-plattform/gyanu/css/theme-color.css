@@ -1,0 +1,45 @@
+/* Theme: lighter background and higher-contrast text */
+:root{
+  --theme-bg: #fbfdff; /* very light */
+  --theme-text: #04203a; /* deep navy for strong contrast */
+  --card-bg: rgba(255,255,255,0.98);
+  --button-start: #0056d6;
+  --button-end: #1ea0ff;
+}
+body{
+  background-color: var(--theme-bg) !important;
+  color: var(--theme-text) !important;
+}
+html{
+  background-color: var(--theme-bg) !important;
+  min-height:100%;
+}
+/* Make main content containers transparent so the page background is visible */
+.container, .main, .content, .page, .wrap{
+  background: transparent !important;
+}
+/* Keep cards nearly opaque to ensure readable contrast on the new bg */
+.card, .info-card, .review-item{
+  background-color: var(--card-bg) !important;
+  color: var(--theme-text) !important;
+}
+/* Buttons: keep existing shapes but improve color contrast */
+.btn-filter, .btn-view, .wishlist-btn{
+  color:#ffffff !important;
+}
+.btn-filter{background:linear-gradient(90deg,var(--button-start),var(--button-end)) !important}
+.btn-remove{background:#ff6b6b !important}
+
+/* Ensure links are visible and accessible */
+a{color:var(--button-start)}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --theme-bg:#071428; /* softer dark */
+    --theme-text:#e8f6ff; /* bright but not glaring */
+    --card-bg: rgba(8,18,34,0.88);
+    --button-start:#2b7bdc;
+    --button-end:#5fb7ff;
+  }
+  .card, .info-card, .review-item{background-color:var(--card-bg) !important}
+}

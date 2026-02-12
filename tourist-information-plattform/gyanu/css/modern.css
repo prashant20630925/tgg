@@ -1,0 +1,70 @@
+/* Modern styles for search, wishlist, and destination details */
+:root{
+  --bg:#f7fbff;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --accent:#0b63d6;
+  --accent-2:#30a0ff;
+  --success:#2ecc71;
+  --radius:12px;
+  --glass: rgba(255,255,255,0.8);
+}
+body{background:var(--bg);font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;color:#0f1724}
+.container{max-width:1200px;margin:32px auto;padding:20px}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:0 10px 30px rgba(2,6,23,0.06);overflow:hidden;max-width:420px;margin:0 auto}
+.search-header h1{font-size:28px;margin-bottom:8px}
+.filter-container{display:grid;grid-template-columns:280px 1fr;gap:24px}
+.filter-panel{padding:18px;background:linear-gradient(180deg,var(--glass),#fff);border-radius:10px}
+.filter-group label{display:block;font-weight:700;color:var(--muted);margin-bottom:8px}
+.search-input{width:100%;padding:12px;border:1px solid #e6eefc;border-radius:8px}
+.btn-filter{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;color:#fff;padding:12px;border-radius:8px;font-weight:700;cursor:pointer}
+.results-container{display:grid;grid-template-columns:1fr;gap:18px;justify-content:center}
+
+/* Row-wise card: image left, content right */
+.results-container .card{display:flex;flex-direction:row;align-items:stretch;gap:16px;max-width:980px;width:100%;margin:0 auto}
+.results-container .card img.card-image{width:320px;height:200px;object-fit:cover;flex:0 0 320px;border-radius:8px}
+.results-container .card .card-content{flex:1;padding:18px;display:flex;flex-direction:column;justify-content:center}
+.card .card-image{height:180px;object-fit:cover;width:100%}
+.card-content{padding:14px}
+.card-title{font-weight:800;font-size:16px}
+.card-location{color:var(--muted);font-size:13px}
+.card-link{display:inline-block;margin-top:10px;color:var(--accent);text-decoration:none;font-weight:700}
+.card-link:hover{text-decoration:underline}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+
+/* Wishlist */
+.wishlist-grid{display:grid;grid-template-columns:1fr;gap:18px}
+.wishlist-grid .wishlist-card{display:flex;gap:12px;align-items:stretch;max-width:980px;margin:0 auto}
+.wishlist-grid .wishlist-card img{width:260px;height:180px;object-fit:cover;flex:0 0 260px;border-radius:8px}
+
+/* Ensure destination boxes become row-wise on larger screens */
+.destinations-grid{display:grid;grid-template-columns:1fr;gap:20px}
+.destinations-grid .box{display:flex;gap:14px;align-items:stretch;max-width:980px;margin:0 auto}
+.destinations-grid .box .imgBox{flex:0 0 360px}
+.destinations-grid .box .imgBox img{width:100%;height:100%;object-fit:cover}
+.destinations-grid .box .name-text{flex:1;padding:20px}
+.wishlist-card img{height:180px;object-fit:cover;width:100%}
+.card-buttons{display:flex;gap:8px;margin-top:10px}
+.btn-view{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none}
+.btn-remove{background:#ff6b6b;color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+
+/* Destination details */
+.hero-section{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.hero-image img{width:100%;height:420px;object-fit:cover;border-radius:10px}
+.hero-content h1{font-size:32px;margin-bottom:10px}
+.rating-bar{display:flex;align-items:center;gap:12px}
+.wishlist-btn{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;padding:10px 16px;border-radius:8px;border:none;cursor:pointer}
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.info-card{background:var(--card);padding:14px;border-radius:10px}
+.map-section iframe{width:100%;height:360px;border-radius:10px;border:0}
+.reviews-section,.recommendations{margin-top:20px}
+.review-item{background:#fff;padding:14px;border-radius:10px;border:1px solid #eef3fb}
+
+@media(max-width:900px){
+  .filter-container{grid-template-columns:1fr}
+  .hero-section{grid-template-columns:1fr}
+  .hero-image img{height:260px}
+  /* On small screens revert cards to column layout */
+  .results-container .card, .wishlist-grid .wishlist-card, .destinations-grid .box{flex-direction:column}
+  .results-container .card img.card-image, .wishlist-grid .wishlist-card img, .destinations-grid .box .imgBox{width:100%;flex:0 0 auto;height:auto}
+}

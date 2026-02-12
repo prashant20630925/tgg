@@ -1,0 +1,357 @@
+<?php
+// Include authentication check - redirects if not logged in
+require_once 'auth_check.php';
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/gallery.css">
+	<title>Gallery</title>
+
+	<style>
+	/* ===== HEADER STYLES ===== */
+	:root {
+	    --primary-color: #1e73be;
+	    --primary-dark: #125a94;
+	    --white: #fff;
+	    --text-gray: #999;
+	    --transition: 0.3s ease;
+	}
+
+	.main {
+	    position: fixed;
+	    top: 0;
+	    left: 0;
+	    right: 0;
+	    height: auto !important;
+	    width: 100% !important;
+	    max-width: 100% !important;
+	    display: flex !important;
+	    flex-direction: row !important;
+	    align-items: center;
+	    justify-content: space-between;
+	    background: linear-gradient(305deg, rgba(48, 210, 207, 0.15) 30%, rgba(1, 106, 160, 0.15) 82%) !important;
+	    overflow: visible !important;
+	    z-index: 1000;
+	    background-size: 100% 100%;
+	    background-attachment: fixed;
+	    padding: 12px 20px;
+	    gap: 30px;
+	    flex-wrap: nowrap;
+	    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+	}
+
+	body {
+	    padding-top: 120px;
+	    margin: 0;
+	}
+
+	header {
+	    margin-top: 120px;
+	}
+
+	.main ul {
+	    list-style: none;
+	    margin: 0;
+	    padding: 0;
+	    display: flex;
+	    align-items: center;
+	}
+
+	.main ul.list {
+	    display: flex;
+	    align-items: center;
+	    gap: 15px;
+	    position: static !important;
+	    float: none !important;
+	    width: 100%;
+	    padding: 12px 20px;
+	    background: transparent;
+	    margin: 0;
+	    flex: 1;
+	}
+
+	.logo {
+	    display: flex;
+	    align-items: center;
+	    gap: 15px;
+	    flex: 1;
+	    flex-wrap: nowrap;
+	}
+
+	.main .logo a {
+	    display: flex;
+	    align-items: center;
+	    flex-shrink: 0;
+	}
+
+	.main .logo img {
+	    width: 50px;
+	    height: 50px;
+	    transition: transform var(--transition);
+	    position: static !important;
+	    float: none !important;
+	    top: auto !important;
+	    left: auto !important;
+	    margin: 0 !important;
+	    animation: none !important;
+	}
+
+	.main .logo img:hover {
+	    transform: scale(1.1) rotate(-5deg);
+	}
+
+	.search-box {
+	    display: flex;
+	    align-items: center;
+	    gap: 8px;
+	    flex: 1;
+	    min-width: 200px;
+	    max-width: 400px;
+	}
+
+	.search {
+	    display: flex;
+	    align-items: center;
+	    gap: 8px;
+	    flex: 1;
+	}
+
+	.search input[type="text"],
+	.search-box input[type="text"] {
+	    flex: 1;
+	    padding: 10px 14px;
+	    border: 2px solid var(--white);
+	    border-radius: 25px;
+	    font-size: 14px;
+	    outline: none;
+	    transition: all var(--transition);
+	    background: rgba(255, 255, 255, 0.95);
+	}
+
+	.search input[type="text"]:focus,
+	.search-box input[type="text"]:focus {
+	    background: var(--white);
+	    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	}
+
+	.search input[type="text"]::placeholder,
+	.search-box input[type="text"]::placeholder {
+	    color: var(--text-gray);
+	}
+
+	.search button,
+	.search-box button {
+	    padding: 10px 14px;
+	    cursor: pointer;
+	    border: none;
+	    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+	    color: var(--white);
+	    border-radius: 50%;
+	    font-size: 20px;
+	    transition: all var(--transition);
+	    width: 44px;
+	    height: 44px;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    flex-shrink: 0;
+	    font-weight: bold;
+	}
+
+	.search button:hover,
+	.search-box button:hover {
+	    transform: scale(1.1);
+	    box-shadow: 0 4px 12px rgba(30, 115, 190, 0.4);
+	}
+
+	.main ul.list2 {
+	    display: flex;
+	    align-items: center;
+	    gap: 0;
+	    position: static !important;
+	    float: none !important;
+	    flex-wrap: nowrap;
+	    width: auto;
+	    justify-content: flex-end;
+	    margin: 0 !important;
+	    padding: 0 !important;
+	    background: transparent;
+	    list-style: none;
+	}
+
+	.main ul.list2 li {
+	    display: inline-block !important;
+	    float: none !important;
+	    list-style: none;
+	    margin: 0;
+	    padding: 0;
+	}
+
+	.main ul.list2 li a {
+	    text-decoration: none;
+	    color: var(--white);
+	    padding: 10px 20px;
+	    display: inline-block;
+	    font-weight: 600;
+	    font-size: 15px;
+	    transition: var(--transition);
+	    border: 1px solid transparent;
+	}
+
+	.main ul.list2 li a:hover {
+	    background-color: rgba(255, 255, 255, 0.2);
+	    color: var(--white);
+	    border-bottom: 2px solid var(--white);
+	}
+
+	.main ul.list2 li.active-menu a {
+	    background-color: rgba(255, 255, 255, 0.3);
+	    color: var(--white);
+	    border-bottom: 3px solid var(--white);
+	}
+
+	@media (max-width: 768px) {
+	    body {
+	        padding-top: 140px;
+	    }
+
+	    .main {
+	        flex-direction: column;
+	        gap: 10px;
+	    }
+
+	    .main ul.list {
+	        flex-wrap: wrap;
+	        width: 100%;
+	        flex: auto;
+	    }
+
+	    .search input[type="text"],
+	    .search-box input[type="text"] {
+	        max-width: 200px;
+	    }
+
+	    .main ul.list2 li a {
+	        padding: 8px 15px;
+	        font-size: 13px;
+	    }
+
+	    .main ul.list2 {
+	        width: 100%;
+	        justify-content: center;
+	    }
+	}
+
+	@media (max-width: 480px) {
+	    body {
+	        padding-top: 140px;
+	    }
+
+	    .search input[type="text"],
+	    .search-box input[type="text"] {
+	        max-width: 150px;
+	        font-size: 12px;
+	    }
+
+	    .main ul.list2 li a {
+	        padding: 6px 10px;
+	        font-size: 11px;
+	    }
+
+	    .search button,
+	    .search-box button {
+	        width: 38px;
+	        height: 38px;
+	        font-size: 16px;
+	    }
+	}
+	</style>
+</head>
+<body>
+	<header>
+		<div class="main">
+			<!-- Logo + Search (Same Line) -->
+			<ul class="list">
+				<li class="logo">
+					<a href="mainpage.php">
+						<img src="./images/logo/logo.png" alt="Logo">
+					</a>
+					<form method="GET" action="search.php" class="search-box">
+						<input type="text" name="query" placeholder="Search..." required>
+						<button type="submit">🔍</button>
+					</form>
+				</li>
+			</ul>
+
+			<!-- Menu -->
+			<ul class="list2">
+				<li><a href="mainpage.php">Home</a></li>
+				<li><a href="destination.php">Destination</a></li>
+				<li class="active-menu"><a href="gallery.php">Gallery</a></li>
+				<li><a href="feedback.php">Feedback</a></li>
+				<li><a href="logout.php">Logout</a></li>
+			</ul>
+		</div>
+	</header>
+	<h1>Gallery</h1>
+	<div class="container container1">
+		<h2> POKHARA</h2>
+		<div class="box box1">
+			<div class="imgBox">
+			  <img src="./images/destination/pokhara.jpg" alt="Pokhara Image" style="width: auto;height: 270px;">
+			</div>
+		</div>
+		<div class="box">
+			<div class="imgBox">
+			  <img src="./images/destination/fewalake.jpg" alt="Fewa Lake Image" style="width: auto;height: 270px;">
+			</div>
+		</div>
+		<div class="box">
+			<div class="imgBox">
+			  <img src="images/destination/pum.jpg" alt="PUM Image" style="width: auto;height: 270px;">
+			</div>
+		</div>
+		<div class="box">
+			<div class="imgBox">
+			  <img src="images/destination/sarangkot.jpg" alt="Sarangkot Image" style="width: auto;height: 270px;">
+			</div>
+		</div>
+	</div>
+
+	<div class="container container2">
+		<h2>KATHMANDU</h2>
+		<div class="box box1">
+			<div class="imgBox">
+			  <img src="images/destination/kathmadu.jpg" alt="Kathmandu Image" style="width: auto;height: 270px;">
+			</div>
+		</div>
+		<div class="box">
+			<div class="imgBox">
+			  <img src="images/destination/Kathmandu Durbar Square.jpg" alt="Kathmandu Durbar Square" style="width: auto;height: 270px;">
+			</div>
+		</div>
+		<div class="box">
+			<div class="imgBox">
+			  <img src="images/destination/pasupatinath.jpg" alt="Pashupatinath Image" style="width: auto;height: 270px;">
+			</div>
+		</div>
+	</div>
+
+	<div class="container container4">
+		<h2>LUMBINI</h2>
+		<div class="box box1">
+			<div class="imgBox">
+			  <img src="images/destination/lumbini1.jpg" alt="Lumbini Image" style="width: auto;height: 270px;">
+			</div>
+		</div>
+		<div class="box">
+			<div class="imgBox">
+			  <img src="images/destination/lumbini2.jpg" alt="Lumbini Image" style="width: auto;height: 270px;">
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
